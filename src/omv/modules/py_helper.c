@@ -116,10 +116,36 @@ void py_helper_arg_to_scale(const mp_obj_t arg_x_scale, const mp_obj_t arg_y_sca
     }
 }
 
+void py_helper_arg_to_range(const mp_obj_t scale, float *min, float *max,
+                            const mp_obj_t *array, size_t array_size) {
+    float min_out = FLT_MAX;
+    float max_out = -FLT_MAX;
+
+    if (scale != mp_const_none) {
+        mp_obj_t *arg_scale;
+        mp_obj_get_array_fixed_n(scale, 2, &arg_scale);
+        min_out = mp_obj_get_float(arg_scale[0]);
+        max_out = mp_obj_get_float(arg_scale[1]);
+    } else if (array && array_size) {
+        for (int i = 0; i < array_size; i++) {
+            float t = mp_obj_get_float(array[i]);
+            if (t < min_out) {
+                min_out = t;
+            }
+            if (t > max_out) {
+                max_out = t;
+            }
+        }
+    }
+
+    *min = min_out;
+    *max = max_out;
+}
+
 void py_helper_arg_to_float_array(const mp_obj_t arg, float *array, size_t size) {
     if (arg != mp_const_none) {
         mp_obj_t *arg_array;
-        mp_obj_get_array_fixed_n(arg, array_size, &arg_array);
+        mp_obj_get_array_fixed_n(arg, size, &arg_array);
         for (int i = 0; i < size; i++) {
             array[i] = mp_obj_get_float(arg_array[i]);
         }
