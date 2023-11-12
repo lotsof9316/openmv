@@ -26,6 +26,7 @@ const void *py_helper_arg_to_palette(const mp_obj_t arg, uint32_t pixfmt);
 rectangle_t py_helper_arg_to_roi(const mp_obj_t arg, const image_t *img);
 void py_helper_arg_to_scale(const mp_obj_t arg_x_scale, const mp_obj_t arg_y_scale,
                             float *x_scale, float *y_scale, rectangle_t *roi);
+void py_helper_arg_to_float_array(const mp_obj_t arg, float *array, size_t size);
 image_t *py_helper_keyword_to_image(uint n_args, const mp_obj_t *args, uint arg_index,
                                     mp_map_t *kw_args, mp_obj_t kw, image_t *default_val);
 void py_helper_keyword_rectangle(image_t *img, uint n_args, const mp_obj_t *args, uint arg_index,
